@@ -1,30 +1,35 @@
 // Importing the crypto module for cryptographic operations
 const crypto = require('crypto');
 
+// Global boolean to control the use of random seeds
+const useRandomSeed = false;
+const debugMode = true;
+// If useRandomSeed is false, use predefined values, otherwise generate random seeds
+const randomServerSeed = useRandomSeed ? generateRandomServerSeed(64) : 'd83729554eeed8965116385e0486dab8a1f6634ae1a9e8139e849ab75f17341d';
+const randomClientSeed = useRandomSeed ? generateRandomClientSeed(10) : 'wcvqnIM521';
+const startNonce = useRandomSeed ? Math.floor(Math.random() * 1000000) + 1 : 1;
+
 // Setting initial parameters for the simulation
 const startTime = Date.now();
-const randomClientSeed = generateRandomClientSeed(10); // Generates a 10-character long client seed
-const randomServerSeed = generateRandomServerSeed(64); // Generates a 64 hex character long server seed
-let chance = 18, // Set winning chance
-    debugMode = false, // Set to true to activate debug mode
-    baseBet = 0.0003, // Base bet amount
+let chance = 18,
+    baseBet = 0.0003,
     nextBet = baseBet,
-    balance = 1000000, // Starting balance
-    totalBets = 240000, // Total number of bets for the simulation
-    houseEdge = 1, // House edge percentage
-    payOut = ((100 - houseEdge) / (chance / 100) / 100), // Calculates the win payout automatically
-    increaseOnLoss = 1.2230, // Multiplier for the bet amount on a loss
-    betHigh = false, // Betting high or low
-    win = false, // Win status
-    bet = 0, // Current bet
-    profit = 0, // Total profit
-    totalWagered = 0, // Total amount wagered
-    startNonce = Math.floor(Math.random() * 1000000) + 1, // Random starting nonce position
+    balance = 1000000,
+    totalBets = 168000,
+    houseEdge = 1,
+    payOut = ((100 - houseEdge) / (chance / 100) / 100),
+    increaseOnLoss = 1.2230,
+    betHigh = false,
+    win = false,
+    bet = 0,
+    profit = 0,
+    totalWagered = 0,
     winCount = 0,
     winRatio = 0,
     betCount = 0,
     lastBet = 0,
-    progress
+    progress;
+
 
 
 // Byte generator for cryptographic randomness
@@ -192,9 +197,9 @@ async function analyzeBets(serverSeed, clientSeed, startNonce, numberOfBets) {
                  console.log(
                     win ? '\x1b[32m%s\x1b[0m' : '\x1b[37m%s\x1b[0m',
                     [
-                        //'Server Seed: ' + serverSeed,
-                        //'Client Seed: ' + clientSeed,
-                        //'Nonce: ' + nonce,
+                        'Server Seed: ' + serverSeed,
+                        'Client Seed: ' + clientSeed,
+                        'Nonce: ' + nonce,
                         'Progress %: ' + progress.toFixed(4),
                         'Bet Count ' + betCount,
                         'Result: ' + roll,
@@ -224,17 +229,19 @@ async function analyzeBets(serverSeed, clientSeed, startNonce, numberOfBets) {
     };
 }
 
-// Example usage of the analyzeBets function
+// analyzeBets function
 const result = analyzeBets(
     randomServerSeed, // Server Seed
     randomClientSeed, // Client Seed
     startNonce, // Starting nonce position
-    chance, // Bet threshold for a loss
     totalBets // Total number of bets to analyze
 );
 
+
 // Calculating and displaying the results
-const endTime = Date.now();
-const runTimeSeconds = (endTime - startTime) / 1000;
-const betsPerSecond = result.betCount / runTimeSeconds;
-console.log('Complete!');
+result.then((result) => {
+    const endTime = Date.now();
+    const runTimeSeconds = (endTime - startTime) / 1000;
+    const betsPerSecond = result.betCount / runTimeSeconds;
+    console.log('Complete!');
+});
