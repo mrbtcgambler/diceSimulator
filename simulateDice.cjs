@@ -15,7 +15,7 @@ let chance = 18,
     baseBet = 0.0003,
     nextBet = baseBet,
     balance = 1000000,
-    totalBets = 168000,
+    totalBets = 1680000,
     houseEdge = 1,
     payOut = ((100 - houseEdge) / (chance / 100) / 100),
     increaseOnLoss = 1.2230,
@@ -133,13 +133,13 @@ async function analyzeBets(serverSeed, clientSeed, startNonce, numberOfBets) {
         //    //break;
         //}
 
-        if (currentStreak === 19) {
+        if (currentStreak === 82) {
             betHigh = !betHigh;
         }  
         
-        if (currentStreak === 39) {
-           betHigh = !betHigh;
-        } 
+        //if (currentStreak === 39) {
+        //   betHigh = !betHigh;
+        //} 
           
         if (nextBet > balance) {
             console.log("Busted!");
