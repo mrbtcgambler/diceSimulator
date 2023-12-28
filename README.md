@@ -13,9 +13,10 @@ This repository contains a Node.js script for simulating gambling strategies usi
 
 ## How to Use
 
-1. Clone the repository. [git clone https://github.com/btcgambler/Dice-Betting-Simulator.git]
-2. Install Node.js if not already installed. - Linux [sudo apt install nodejs] Windows/Max [https://nodejs.org/en/download]
-3. Change directory
+1. watch this video: https://www.youtube.com/watch?v=5cGhw82-2pE
+2. Clone the repository. [git clone https://github.com/btcgambler/Dice-Betting-Simulator.git]
+3. Install Node.js if not already installed. - Linux [sudo apt install nodejs] Windows/Max [https://nodejs.org/en/download]
+4. Change directory
 3. Run the script using [node simulateDice.cjs]
 
 ## Configuration
